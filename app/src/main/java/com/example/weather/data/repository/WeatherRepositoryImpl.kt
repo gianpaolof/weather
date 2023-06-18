@@ -10,7 +10,6 @@ import com.example.weather.domain.models.todisplay.DisplayWeatherNow
 import com.example.weather.domain.models.todisplay.Summary
 import com.example.weather.domain.repository.WeatherRepository
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
@@ -32,7 +31,7 @@ class WeatherRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getWeather24h(): Single<DisplayWeather24h> {
+    override fun getWeather24h(): Single<Pair<DisplayWeather24h, List<DisplayWeather24h>>> {
         return WeatherInstance.api.getWeather24h()
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.single())
@@ -44,7 +43,7 @@ class WeatherRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getWeather14d(pickedDate: String?): Pair<Single<DisplayWeather14d>, Single<Summary>> {
+    override fun getWeather14d(pickedDate: String?): Pair<Single<Pair<DisplayWeather14d, List<DisplayWeather14d>>>, Single<Summary>> {
 
         return Pair(
             first = WeatherInstance.api.getWeather14d()

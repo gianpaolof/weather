@@ -5,9 +5,7 @@ import com.example.weather.app.schedulers.SchedulerProvider
 import com.example.weather.domain.usecase.weather.GetWeather14dUseCase
 import com.example.weather.domain.usecase.weather.GetWeather24hUseCase
 import com.example.weather.domain.usecase.weather.GetWeatherNowUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class WeatherPresenterImpl(
     private val getWeatherNowUseCase: GetWeatherNowUseCase,
@@ -49,7 +47,10 @@ class WeatherPresenterImpl(
             .observeOn(schedulers.ui())
             .subscribe(
                 {
-                    view?.showWeather24h(it)
+                    view?.showWeather24h(
+                        displayWeather24h = it.first,
+                        listDisplayWeather24h = it.second
+                    )
                 }, {
                     throw RuntimeException(it.message)
                 }
@@ -64,7 +65,10 @@ class WeatherPresenterImpl(
             .observeOn(schedulers.ui())
             .subscribe(
                 {
-                    view?.showWeather14d(it)
+                    view?.showWeather14d(
+                        displayWeather14d = it.first,
+                        listDisplayWeather14d = it.second
+                    )
                 }, {
                     throw RuntimeException(it.message)
                 }

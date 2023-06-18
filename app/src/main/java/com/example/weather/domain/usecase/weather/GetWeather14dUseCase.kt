@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 class GetWeather14dUseCase (private val weatherRepository: WeatherRepository) {
 
-    fun getWeather14d(pickedDate: String?): Pair<Single<DisplayWeather14d>, Single<Summary>> {
+    fun getWeather14d(pickedDate: String?): Pair<Single<Pair<DisplayWeather14d, List<DisplayWeather14d>>>, Single<Summary>> {
         return weatherRepository.getWeather14d(pickedDate = pickedDate)
     }
 

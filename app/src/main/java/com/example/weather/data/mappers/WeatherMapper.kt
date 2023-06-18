@@ -17,7 +17,6 @@ import java.util.*
 class WeatherMapper {
 
     fun mapApiToDisplay(weatherNow: WeatherNow) : DisplayWeatherNow {
-
         val currentWeather = weatherNow.current_weather
         val isDay = currentWeather.is_day == 1
         val currentTime = currentWeather.time
@@ -43,9 +42,7 @@ class WeatherMapper {
             "${daily.precipitation_probability_max.first()}" +
                     weatherNow.daily_units.precipitation_probability_max
 
-        val windSpeed =
-            "${currentWeather.windspeed}" +
-                    weatherNow.current_weather.windspeed
+        val windSpeed = "${currentWeather.windspeed} m/s"
 
         val relativeHumidity =
             "${hourly.relativehumidity_2m[index]}" +
@@ -76,22 +73,23 @@ class WeatherMapper {
         )
     }
 
-    fun mapApiToDisplay(weather24h: Weather24h) : DisplayWeather24h {
+    fun mapApiToDisplay(weather24h: Weather24h) : Pair<DisplayWeather24h, List<DisplayWeather24h>>  {
+        val list = mutableListOf<DisplayWeather24h>()
         var displayWeather24h = DisplayWeather24h()
         val hourly = weather24h.hourly
         val isDay = hourly.is_day
         val currentTime = weather24h.current_weather.time
         val hourlyTime = hourly.time.filter { it == currentTime }
-        hourlyTime.forEach {
-            val index = hourlyTime.indexOf(currentTime)
+        val index = hourlyTime.indexOf(currentTime)
+        val range = index..index + 23
 
-            val displayIsDay = isDay[index] == 1
-            val displayTime = it
-            val displayTemp = hourly.temperature_2m[index]
+        for (i in range) {
+            val displayIsDay = isDay[i] == 1
+            val displayTime = hourly.time[i].substringAfter("T")
 
-            val isRain = hourly.rain[index] > 0
-            val isShowers = hourly.showers[index] > 0
-            val isSnow = hourly.snowfall[index] > 0
+            val isRain = hourly.rain[i] > 0
+            val isShowers = hourly.showers[i] > 0
+            val isSnow = hourly.snowfall[i] > 0
 
             val typeOfWeather = when {
                 isRain -> DisplayWeather24h.TYPE_OF_WEATHER_RAIN
@@ -103,28 +101,36 @@ class WeatherMapper {
             }
 
             displayWeather24h = DisplayWeather24h(
-                temperature = displayTemp,
+                temperature = hourly.temperature_2m[i],
                 time = displayTime,
                 typeOfWeather = typeOfWeather,
             )
+            list.add(displayWeather24h)
         }
-        return displayWeather24h
+
+        return Pair(first = displayWeather24h, second = list)
     }
 
-    fun mapApiToDisplay(weather14d: Weather14d, pickedDate: String?, context: Context) : Pair<DisplayWeather14d, Summary>  {
+    fun mapApiToDisplay(
+        weather14d: Weather14d,
+        pickedDate: String?,
+        context: Context
+    ) : Pair<Pair<DisplayWeather14d, List<DisplayWeather14d>>, Summary> {
 
+        val list = mutableListOf<DisplayWeather14d>()
         var displayWeather14d = DisplayWeather14d()
         var summary = Summary()
         val daily = weather14d.daily
         val isDay = weather14d.current_weather.is_day == 1
         val dailyTime = daily.time
 
+        val formatter = DateTimeFormatter.ofPattern("dd/MM")
+
         dailyTime.forEachIndexed { index, s ->
 
             val date = LocalDate.parse(s)
             val dayOfWeek = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
 
-            val formatter = DateTimeFormatter.ofPattern("dd/MM")
             val formattedDate = date.format(formatter)
 
             val isRain = daily.rain_sum[index] > 0
@@ -143,16 +149,18 @@ class WeatherMapper {
                 else -> throw RuntimeException("Unknown type of weather")
             }
 
-            val isPicked = if (pickedDate == null) true else pickedDate == formattedDate
+            val isPicked = if (pickedDate == null && index == 0) true else pickedDate == formattedDate
 
             displayWeather14d = DisplayWeather14d(
                 dayOfWeek = dayOfWeek,
                 date = formattedDate,
-                minTemperature = minTemperature,
-                maxTemperature = maxTemperature,
+                minTemperature = daily.temperature_2m_min[index],
+                maxTemperature = daily.temperature_2m_max[index],
                 isPicked = isPicked,
                 typeOfWeather = typeOfWeather,
             )
+
+            list.add(displayWeather14d)
 
             val dateWeatherParse = LocalDate.parse(s)
 
@@ -193,7 +201,7 @@ class WeatherMapper {
             )
         }
 
-        return Pair(first = displayWeather14d, second = summary)
+        return Pair(first = Pair(first = displayWeather14d, second = list), second = summary)
     }
 
     companion object {

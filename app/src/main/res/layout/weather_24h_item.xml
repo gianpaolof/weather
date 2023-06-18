@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dp"
+    android:layout_height="80dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/todayTime"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="14sp">
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/todayImg"
+        android:layout_width="24dp"
+        android:layout_height="24dp">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/todayTemp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="16sp">
+
+    </TextView>
+
+</LinearLayout>

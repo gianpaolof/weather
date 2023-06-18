@@ -11,8 +11,8 @@ interface MainView {
     fun showProgress()
     fun hideProgress()
     fun showWeatherNow(displayWeatherNow: DisplayWeatherNow)
-    fun showWeather24h(displayWeather24h: DisplayWeather24h)
-    fun showWeather14d(displayWeather14d: DisplayWeather14d)
+    fun showWeather24h(displayWeather24h: DisplayWeather24h, listDisplayWeather24h: List<DisplayWeather24h>)
+    fun showWeather14d(displayWeather14d: DisplayWeather14d, listDisplayWeather14d: List<DisplayWeather14d>)
     fun showWeatherSummary(summary: Summary)
 
 }
