@@ -1,6 +1,7 @@
 package com.example.weather.data.repository
 
 import android.content.Context
+import com.example.weather.app.schedulers.SchedulerProvider
 import com.example.weather.data.api.weather.WeatherInstance
 import com.example.weather.data.mappers.WeatherMapper
 import com.example.weather.domain.models.todisplay.DisplayWeather14d
@@ -12,14 +13,17 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class WeatherRepositoryImpl @Inject constructor(private val context: Context) : WeatherRepository {
+class WeatherRepositoryImpl @Inject constructor(
+    private val context: Context,
+    private val schedulers: SchedulerProvider
+) : WeatherRepository {
 
     private val mapper = WeatherMapper()
 
     override fun getWeatherNow(): Single<DisplayWeatherNow> {
         return WeatherInstance.api.getWeatherNow()
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.single())
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.single())
             .map { weatherNow ->
                 mapper.mapApiToDisplay(weatherNow)
             }
@@ -30,8 +34,8 @@ class WeatherRepositoryImpl @Inject constructor(private val context: Context) : 
 
     override fun getWeather24h(): Single<DisplayWeather24h> {
         return WeatherInstance.api.getWeather24h()
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.single())
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.single())
             .map { weather24h ->
                 mapper.mapApiToDisplay(weather24h)
             }
@@ -44,8 +48,8 @@ class WeatherRepositoryImpl @Inject constructor(private val context: Context) : 
 
         return Pair(
             first = WeatherInstance.api.getWeather14d()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.single())
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.single())
                 .map { weather14d ->
                     mapper.mapApiToDisplay(weather14d = weather14d, pickedDate = pickedDate, context = context).first
                 }
@@ -53,8 +57,8 @@ class WeatherRepositoryImpl @Inject constructor(private val context: Context) : 
                     throw RuntimeException(it.message)
                 },
             second = WeatherInstance.api.getWeather14d()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.single())
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.single())
                 .map { weather14d ->
                     mapper.mapApiToDisplay(weather14d = weather14d, pickedDate = pickedDate, context = context).second
                 }

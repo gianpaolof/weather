@@ -60,6 +60,7 @@ class WeatherMapper {
             isShowers -> DisplayWeatherNow.TYPE_OF_WEATHER_SHOWERS
             isSnow -> DisplayWeatherNow.TYPE_OF_WEATHER_SNOW
             isDay -> DisplayWeatherNow.TYPE_OF_WEATHER_DAY
+            !isDay -> DisplayWeatherNow.TYPE_OF_WEATHER_NIGHT
             else -> throw RuntimeException("Unknown type of weather")
         }
 

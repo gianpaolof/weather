@@ -2,9 +2,7 @@ package com.example.weather.app.presentation.main
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.weather.R
 import com.example.weather.app.App
 import com.example.weather.app.presentation.weather_presenter.WeatherPresenter
 import com.example.weather.databinding.ActivityMainBinding
@@ -24,7 +22,9 @@ class MainActivity : AppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        (applicationContext as App).appComponent.inject(this)
+        (application as App).appComponent.inject(this)
+
+        weatherPresenter.attachView(this)
 
         weatherPresenter.getWeatherNow()
         weatherPresenter.getWeather24h()
@@ -57,6 +57,6 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun onDestroy() {
         super.onDestroy()
-        weatherPresenter.unsubscribe()
+        weatherPresenter.detachView()
     }
 }
