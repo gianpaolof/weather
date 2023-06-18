@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainConstraint"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".app.presentation.main.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/mainLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/search_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxBackgroundMode="filled"
+                        app:hintAnimationEnabled="true"
+                        app:startIconDrawable="@drawable/ic_search">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/search"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white10"
+                            android:maxLines="1"
+                            android:textColor="@color/black"
+                            android:textSize="16sp">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white30">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/transparent"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mainLinear">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="75dp"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true">
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <ImageView
+                                android:id="@+id/mainImg"
+                                android:layout_width="150dp"
+                                android:layout_height="130dp">
+
+                            </ImageView>
+
+                            <TextView
+                                android:id="@+id/mainTemp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="64sp">
+
+                            </TextView>
+
+                            <TextView
+                                android:id="@+id/maxMin"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="16sp">
+
+                            </TextView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:layout_marginTop="16dp"
+                            android:orientation="vertical">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                app:cardBackgroundColor="@android:color/transparent"
+                                app:cardCornerRadius="24dp"
+                                app:cardElevation="0dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/ic_background_weather"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginStart="16dp"
+                                        android:layout_weight="1"
+                                        android:background="@android:color/transparent">
+
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:src="@drawable/ic_cloud_rain">
+
+                                        </ImageView>
+
+                                        <TextView
+                                            android:id="@+id/precipitation_probability"
+                                            android:layout_width="32dp"
+                                            android:layout_height="36dp"
+                                            android:layout_marginStart="4dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:gravity="center"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp">
+
+                                        </TextView>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:background="@android:color/transparent">
+
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="24dp"
+                                            android:src="@drawable/ic_drop">
+
+                                        </ImageView>
+
+                                        <TextView
+                                            android:id="@+id/relative_humidity"
+                                            android:layout_width="32dp"
+                                            android:layout_height="36dp"
+                                            android:layout_marginStart="4dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:gravity="center"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp">
+
+                                        </TextView>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginEnd="16dp"
+                                        android:layout_weight="1"
+                                        android:background="@android:color/transparent">
+
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="24dp"
+                                            android:src="@drawable/ic_wind">
+
+                                        </ImageView>
+
+                                        <TextView
+                                            android:id="@+id/wind_speed"
+                                            android:layout_width="65dp"
+                                            android:layout_height="36dp"
+                                            android:layout_marginStart="4dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:gravity="center"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp">
+
+                                        </TextView>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="24dp"
+                                android:layout_marginEnd="16dp"
+                                app:cardBackgroundColor="@android:color/transparent"
+                                app:cardCornerRadius="24dp"
+                                app:cardElevation="0dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/ic_background_weather"
+                                    android:orientation="vertical">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:layout_marginTop="16dp"
+                                        android:layout_marginEnd="16dp">
+
+                                        <TextView
+                                            android:id="@+id/textView2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/today"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent">
+
+                                        </TextView>
+
+                                        <TextView
+                                            android:id="@+id/todayDate"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/date"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent">
+
+                                        </TextView>
+
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/todayRecycler"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="16dp">
+
+                                    </androidx.recyclerview.widget.RecyclerView>
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerFor14Days"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginBottom="16dp">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                app:cardBackgroundColor="@android:color/transparent"
+                                app:cardCornerRadius="24dp"
+                                app:cardElevation="0dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/ic_background_weather"
+                                    android:orientation="vertical">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:layout_marginTop="16dp"
+                                        android:layout_marginEnd="16dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/textView"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/summary"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent">
+
+                                        </TextView>
+
+                                        <TextView
+                                            android:id="@+id/summaryDate"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/date"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent">
+
+                                        </TextView>
+
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="64dp"
+                                        android:layout_marginTop="16dp"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:orientation="vertical">
+
+                                            <ImageView
+                                                android:layout_width="24dp"
+                                                android:layout_height="24dp"
+                                                android:src="@drawable/ic_icon_thermometer">
+
+                                            </ImageView>
+
+                                            <TextView
+                                                android:id="@+id/summaryTemperature"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:text="@string/max_min"
+                                                android:textColor="@color/white"
+                                                android:textSize="14sp">
+
+                                            </TextView>
+
+                                            <TextView
+                                                android:id="@+id/summaryTemperatureValue"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:textColor="@color/white"
+                                                android:textSize="16sp">
+
+                                            </TextView>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:orientation="vertical">
+
+                                            <ImageView
+                                                android:layout_width="24dp"
+                                                android:layout_height="24dp"
+                                                android:src="@drawable/ic_cloud_rain">
+
+                                            </ImageView>
+
+                                            <TextView
+                                                android:id="@+id/summaryPrecipitationProbability"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:text="@string/drop"
+                                                android:textColor="@color/white"
+                                                android:textSize="14sp">
+
+                                            </TextView>
+
+                                            <TextView
+                                                android:id="@+id/summaryPrecipitationProbabilityValue"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:textColor="@color/white"
+                                                android:textSize="16sp">
+
+                                            </TextView>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:orientation="vertical">
+
+                                            <ImageView
+                                                android:layout_width="24dp"
+                                                android:layout_height="24dp"
+                                                android:src="@drawable/ic_wind">
+
+                                            </ImageView>
+
+                                            <TextView
+                                                android:id="@+id/summaryWind"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:text="@string/wind"
+                                                android:textColor="@color/white"
+                                                android:textSize="14sp">
+
+                                            </TextView>
+
+                                            <TextView
+                                                android:id="@+id/summaryWindValue"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:textColor="@color/white"
+                                                android:textSize="16sp">
+
+                                            </TextView>
+
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="64dp"
+                                        android:layout_marginTop="16dp"
+                                        android:layout_marginBottom="16dp"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:orientation="vertical">
+
+                                            <ImageView
+                                                android:layout_width="24dp"
+                                                android:layout_height="24dp"
+                                                android:src="@drawable/ic_icon_sunhorizon">
+
+                                            </ImageView>
+
+                                            <TextView
+                                                android:id="@+id/summarySunrise"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:text="@string/sunrise"
+                                                android:textColor="@color/white"
+                                                android:textSize="14sp">
+
+                                            </TextView>
+
+                                            <TextView
+                                                android:id="@+id/summarySunriseValue"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:textColor="@color/white"
+                                                android:textSize="16sp">
+
+                                            </TextView>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:orientation="vertical">
+
+                                            <ImageView
+                                                android:layout_width="24dp"
+                                                android:layout_height="24dp"
+                                                android:src="@drawable/ic_icon_sunhorizon">
+
+                                            </ImageView>
+
+                                            <TextView
+                                                android:id="@+id/summarySunset"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:text="@string/sunset"
+                                                android:textColor="@color/white"
+                                                android:textSize="14sp">
+
+                                            </TextView>
+
+                                            <TextView
+                                                android:id="@+id/summarySunsetValue"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:textColor="@color/white"
+                                                android:textSize="16sp">
+
+                                            </TextView>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:orientation="vertical">
+
+                                            <ImageView
+                                                android:layout_width="24dp"
+                                                android:layout_height="24dp"
+                                                android:src="@drawable/ic_drop">
+
+                                            </ImageView>
+
+                                            <TextView
+                                                android:id="@+id/summaryRelativeHumidity"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:text="@string/relative_humidity"
+                                                android:textColor="@color/white"
+                                                android:textSize="14sp">
+
+                                            </TextView>
+
+                                            <TextView
+                                                android:id="@+id/summaryRelativeHumidityValue"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                android:layout_weight="1"
+                                                android:gravity="center"
+                                                android:textColor="@color/white"
+                                                android:textSize="16sp">
+
+                                            </TextView>
+
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

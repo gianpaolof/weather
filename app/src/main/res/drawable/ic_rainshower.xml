@@ -1,0 +1,23 @@
+<vector android:height="24dp" android:viewportHeight="46"
+    android:viewportWidth="46" android:width="24dp"
+    xmlns:aapt="http://schemas.android.com/aapt" xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <clip-path android:pathData="M0,0h46v46h-46z"/>
+        <group>
+            <clip-path android:pathData="M0.281,0h46v46h-46z"/>
+            <path android:fillColor="#00BCFF" android:pathData="M12.816,28.29L33.746,28.29A1.725,1.725 0,0 1,35.471 30.015L35.471,30.015A1.725,1.725 0,0 1,33.746 31.74L12.816,31.74A1.725,1.725 0,0 1,11.091 30.015L11.091,30.015A1.725,1.725 0,0 1,12.816 28.29z"/>
+            <path android:pathData="M40.666,16.678C40.781,16.011 40.841,15.325 40.841,14.625C40.841,8.072 35.596,2.76 29.126,2.76C24.316,2.76 20.183,5.696 18.379,9.895C16.917,8.616 15.021,7.845 12.948,7.845C8.327,7.845 4.58,11.681 4.58,16.414C4.58,16.677 4.592,16.938 4.615,17.195C2.392,18.298 0.861,20.612 0.861,23.288C0.861,27.032 3.858,30.067 7.555,30.067H39.167C42.864,30.067 45.861,27.032 45.861,23.288C45.861,20.065 43.641,17.368 40.666,16.678Z">
+                <aapt:attr name="android:fillColor">
+                    <gradient android:endX="51.692" android:endY="3.686"
+                        android:startX="0.861" android:startY="30.103" android:type="linear">
+                        <item android:color="#FFE2FFFF" android:offset="0"/>
+                        <item android:color="#FFFFFFFF" android:offset="1"/>
+                    </gradient>
+                </aapt:attr>
+            </path>
+            <path android:fillColor="#00BCFF" android:pathData="M23.138,36.621C21.425,38.868 19.027,43.362 23.138,43.362C27.249,43.362 24.851,38.868 23.138,36.621Z"/>
+            <path android:fillColor="#00BCFF" android:pathData="M14.131,33.319C12.418,35.566 10.02,40.06 14.131,40.06C18.242,40.06 15.844,35.566 14.131,33.319Z"/>
+            <path android:fillColor="#00BCFF" android:pathData="M32.08,33.319C30.367,35.566 27.969,40.06 32.08,40.06C36.191,40.06 33.793,35.566 32.08,33.319Z"/>
+        </group>
+    </group>
+</vector>

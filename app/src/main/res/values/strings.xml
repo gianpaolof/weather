@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">weather-app</string>
+    <string name="summary">Summary</string>
+    <string name="date">Date</string>
+    <string name="max_min">max/min</string>
+    <string name="drop">Drop</string>
+    <string name="wind">Wind</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="relative_humidity">Relative humidity</string>
+    <string name="city">City</string>
+    <string name="today">Today</string>
+    <string name="unknown">Unknown</string>
+    <string name="search_city">Введите город</string>
+</resources>
