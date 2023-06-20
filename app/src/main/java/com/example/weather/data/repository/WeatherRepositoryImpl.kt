@@ -43,14 +43,19 @@ class WeatherRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getWeather14d(pickedDate: String?): Pair<Single<Pair<DisplayWeather14d, List<DisplayWeather14d>>>, Single<Summary>> {
+    override fun getWeather14d(pickedDate: String?):
+            Pair<Single<Pair<DisplayWeather14d, List<DisplayWeather14d>>>, Single<Summary>> {
 
         return Pair(
             first = WeatherInstance.api.getWeather14d()
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.single())
                 .map { weather14d ->
-                    mapper.mapApiToDisplay(weather14d = weather14d, pickedDate = pickedDate, context = context).first
+                    mapper.mapApiToDisplay(
+                        weather14d = weather14d,
+                        pickedDate = pickedDate,
+                        context = context
+                    ).first
                 }
                 .onErrorReturn {
                     throw RuntimeException(it.message)
@@ -59,7 +64,11 @@ class WeatherRepositoryImpl @Inject constructor(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.single())
                 .map { weather14d ->
-                    mapper.mapApiToDisplay(weather14d = weather14d, pickedDate = pickedDate, context = context).second
+                    mapper.mapApiToDisplay(
+                        weather14d = weather14d,
+                        pickedDate = pickedDate,
+                        context = context
+                    ).second
                 }
                 .onErrorReturn {
                     throw RuntimeException(it.message)

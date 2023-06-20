@@ -25,7 +25,7 @@ class WeatherMapper {
 
         val minTemperature = weatherNow.daily.temperature_2m_min[INDEX_TODAY]
         val maxTemperature = weatherNow.daily.temperature_2m_max[INDEX_TODAY]
-        val minMaxTemperature = "${minTemperature}°/" + "${maxTemperature}°"
+        val maxMinTemperature = "${maxTemperature}°/" + "${minTemperature}°"
 
         val todayDate = currentTime.substringBefore("T")
         val localeDate = LocalDate.parse(todayDate)
@@ -64,7 +64,7 @@ class WeatherMapper {
 
         return DisplayWeatherNow(
             temperature = currentTemperature,
-            minMaxTemperature = minMaxTemperature,
+            maxMinTemperature = maxMinTemperature,
             precipitationProbability = precipitationProbability,
             relativeHumidity = relativeHumidity,
             windSpeed = windSpeed,
@@ -174,7 +174,7 @@ class WeatherMapper {
 
                 val summaryDate = "$day $month"
 
-                val minMaxTemperature = "${minTemperature}°/" + "${maxTemperature}°"
+                val maxMinTemperature = "${maxTemperature}°/" + "${minTemperature}°"
 
                 val drop = if (daily.precipitation_probability_max[index] == null) {
                     context.resources.getString(R.string.unknown)
@@ -189,17 +189,17 @@ class WeatherMapper {
                 val sunrise = daily.sunrise[index].substringAfter("T")
                 val sunset = daily.sunset[index].substringAfter("T")
 
-                val apparentMaxMinTemperature = "${daily.apparent_temperature_min[index]}°/" +
-                        "${daily.apparent_temperature_max[index]}°"
+                val apparentMaxMinTemperature = "${daily.apparent_temperature_max[index]}°/" +
+                        "${daily.apparent_temperature_min[index]}°"
 
                 summary = Summary(
                     date = summaryDate,
-                    min_max_temperature = minMaxTemperature,
+                    max_min_temperature = maxMinTemperature,
                     drop = drop,
                     wind = wind,
                     sunrise = sunrise,
                     sunset = sunset,
-                    apparent_min_max_temperature = apparentMaxMinTemperature,
+                    apparent_max_min_temperature = apparentMaxMinTemperature,
                 )
             }
 
