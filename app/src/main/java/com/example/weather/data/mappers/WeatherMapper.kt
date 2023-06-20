@@ -162,43 +162,46 @@ class WeatherMapper {
 
             list.add(displayWeather14d)
 
-            val dateWeatherParse = LocalDate.parse(s)
+            if (isPicked) {
 
-            val day = dateWeatherParse.dayOfMonth
-            val month = dateWeatherParse.month.getDisplayName(
-                TextStyle.FULL,
-                Locale.getDefault()
-            )
+                val dateWeatherParse = LocalDate.parse(s)
+                val day = dateWeatherParse.dayOfMonth
+                val month = dateWeatherParse.month.getDisplayName(
+                    TextStyle.FULL,
+                    Locale.getDefault()
+                )
 
-            val summaryDate = "$day $month"
+                val summaryDate = "$day $month"
 
-            val minMaxTemperature = "${minTemperature}°/" + "${maxTemperature}°"
+                val minMaxTemperature = "${minTemperature}°/" + "${maxTemperature}°"
 
-            val drop = if (daily.precipitation_probability_max[index] == null) {
-                context.resources.getString(R.string.unknown)
-            } else {
-                "${daily.precipitation_probability_max[index]}" +
-                        weather14d.daily_units.precipitation_probability_max
+                val drop = if (daily.precipitation_probability_max[index] == null) {
+                    context.resources.getString(R.string.unknown)
+                } else {
+                    "${daily.precipitation_probability_max[index]}" +
+                            weather14d.daily_units.precipitation_probability_max
+                }
+
+                val wind = "${daily.windspeed_10m_max[index]}" +
+                        weather14d.daily_units.windspeed_10m_max
+
+                val sunrise = daily.sunrise[index].substringAfter("T")
+                val sunset = daily.sunset[index].substringAfter("T")
+
+                val apparentMaxMinTemperature = "${daily.apparent_temperature_min[index]}°/" +
+                        "${daily.apparent_temperature_max[index]}°"
+
+                summary = Summary(
+                    date = summaryDate,
+                    min_max_temperature = minMaxTemperature,
+                    drop = drop,
+                    wind = wind,
+                    sunrise = sunrise,
+                    sunset = sunset,
+                    apparent_min_max_temperature = apparentMaxMinTemperature,
+                )
             }
 
-            val wind = "${daily.windspeed_10m_max[index]}" +
-                    weather14d.daily_units.windspeed_10m_max
-
-            val sunrise = daily.sunrise[index].substringAfter("T")
-            val sunset = daily.sunset[index].substringAfter("T")
-
-            val apparentMaxMinTemperature = "${daily.apparent_temperature_min}°/" +
-                    "${daily.apparent_temperature_max}°"
-
-            summary = Summary(
-                date = summaryDate,
-                min_max_temperature = minMaxTemperature,
-                drop = drop,
-                wind = wind,
-                sunrise = sunrise,
-                sunset = sunset,
-                apparent_min_max_temperature = apparentMaxMinTemperature,
-            )
         }
 
         return Pair(first = Pair(first = displayWeather14d, second = list), second = summary)
