@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.weather.R
 import com.example.weather.app.presentation.adapters.diff_callbacks.Weather14dItemDiffCallback
 import com.example.weather.app.presentation.adapters.viewholders.Weather14dViewHolder
+import com.example.weather.data.WeatherType.*
 import com.example.weather.domain.models.todisplay.DisplayWeather14d
 
 class Weather14dAdapter :
@@ -44,11 +45,11 @@ class Weather14dAdapter :
         }
 
         val img = when (currentItem.typeOfWeather) {
-            DisplayWeather14d.TYPE_OF_WEATHER_RAIN -> R.drawable.ic_rainshower
-            DisplayWeather14d.TYPE_OF_WEATHER_SHOWERS -> R.drawable.ic_rainythunder
-            DisplayWeather14d.TYPE_OF_WEATHER_SNOW -> R.drawable.ic_heavysnow
-            DisplayWeather14d.TYPE_OF_WEATHER_DAY -> R.drawable.ic_day
-            DisplayWeather14d.TYPE_OF_WEATHER_NIGHT -> R.drawable.ic_night
+            RAIN.type -> R.drawable.ic_rainshower
+            SHOWERS.type -> R.drawable.ic_rainythunder
+            SNOW.type -> R.drawable.ic_heavysnow
+            DAY.type -> R.drawable.ic_day
+            NIGHT.type -> R.drawable.ic_night
             else -> throw RuntimeException("Unknown type of weather - ${currentItem.typeOfWeather}")
         }
 

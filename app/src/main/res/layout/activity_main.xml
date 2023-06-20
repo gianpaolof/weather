@@ -600,24 +600,24 @@
                                             <ImageView
                                                 android:layout_width="24dp"
                                                 android:layout_height="24dp"
-                                                android:src="@drawable/ic_drop">
+                                                android:src="@drawable/ic_icon_thermometer">
 
                                             </ImageView>
 
                                             <TextView
-                                                android:id="@+id/summaryRelativeHumidity"
+                                                android:id="@+id/summaryApparentTemp"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="0dp"
                                                 android:layout_weight="1"
                                                 android:gravity="center"
-                                                android:text="@string/relative_humidity"
+                                                android:text="@string/apparent_temperature"
                                                 android:textColor="@color/white"
                                                 android:textSize="14sp">
 
                                             </TextView>
 
                                             <TextView
-                                                android:id="@+id/summaryRelativeHumidityValue"
+                                                android:id="@+id/summaryApparentTempValue"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="0dp"
                                                 android:layout_weight="1"

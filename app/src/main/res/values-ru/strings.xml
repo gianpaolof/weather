@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">weather-app</string>
+    <string name="summary">Общее</string>
+    <string name="date">Дата</string>
+    <string name="max_min">макс/мин</string>
+    <string name="apparent_temperature">Ощущается</string>
+    <string name="drop">Осадки</string>
+    <string name="wind">Ветер</string>
+    <string name="sunrise">Восход</string>
+    <string name="sunset">Закат</string>
+    <string name="relative_humidity">Влажность</string>
+    <string name="city">Город</string>
+    <string name="today">Сегодня</string>
+    <string name="unknown">Неизвестно</string>
+    <string name="search_city">Введите город</string>
+</resources>

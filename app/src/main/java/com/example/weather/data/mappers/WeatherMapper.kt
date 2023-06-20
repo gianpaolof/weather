@@ -2,6 +2,7 @@ package com.example.weather.data.mappers
 
 import android.content.Context
 import com.example.weather.R
+import com.example.weather.data.WeatherType.*
 import com.example.weather.domain.models.todisplay.DisplayWeather14d
 import com.example.weather.domain.models.todisplay.DisplayWeather24h
 import com.example.weather.domain.models.todisplay.DisplayWeatherNow
@@ -53,11 +54,11 @@ class WeatherMapper {
         val isSnow = hourly.snowfall[index] > 0
 
         val typeOfWeather = when {
-            isRain -> DisplayWeatherNow.TYPE_OF_WEATHER_RAIN
-            isShowers -> DisplayWeatherNow.TYPE_OF_WEATHER_SHOWERS
-            isSnow -> DisplayWeatherNow.TYPE_OF_WEATHER_SNOW
-            isDay -> DisplayWeatherNow.TYPE_OF_WEATHER_DAY
-            !isDay -> DisplayWeatherNow.TYPE_OF_WEATHER_NIGHT
+            isRain -> RAIN
+            isShowers -> SHOWERS
+            isSnow -> SNOW
+            isDay -> DAY
+            !isDay -> NIGHT
             else -> throw RuntimeException("Unknown type of weather")
         }
 
@@ -69,7 +70,7 @@ class WeatherMapper {
             windSpeed = windSpeed,
             isDay = isDay,
             todayDate = todayDateText,
-            typeOfWeatherNow = typeOfWeather,
+            typeOfWeatherNow = typeOfWeather.type,
         )
     }
 
@@ -92,18 +93,18 @@ class WeatherMapper {
             val isSnow = hourly.snowfall[i] > 0
 
             val typeOfWeather = when {
-                isRain -> DisplayWeather24h.TYPE_OF_WEATHER_RAIN
-                isShowers -> DisplayWeather24h.TYPE_OF_WEATHER_SHOWERS
-                isSnow -> DisplayWeather24h.TYPE_OF_WEATHER_SNOW
-                displayIsDay -> DisplayWeather24h.TYPE_OF_WEATHER_DAY
-                !displayIsDay -> DisplayWeather24h.TYPE_OF_WEATHER_NIGHT
+                isRain -> RAIN
+                isShowers -> SHOWERS
+                isSnow -> SNOW
+                displayIsDay -> DAY
+                !displayIsDay -> NIGHT
                 else -> throw RuntimeException("Unknown type of weather")
             }
 
             displayWeather24h = DisplayWeather24h(
                 temperature = hourly.temperature_2m[i],
                 time = displayTime,
-                typeOfWeather = typeOfWeather,
+                typeOfWeather = typeOfWeather.type,
             )
             list.add(displayWeather24h)
         }
@@ -141,11 +142,11 @@ class WeatherMapper {
             val maxTemperature = daily.temperature_2m_max[index]
 
             val typeOfWeather = when {
-                isRain -> DisplayWeather14d.TYPE_OF_WEATHER_RAIN
-                isShowers -> DisplayWeather14d.TYPE_OF_WEATHER_SHOWERS
-                isSnow -> DisplayWeather14d.TYPE_OF_WEATHER_SNOW
-                isDay -> DisplayWeather14d.TYPE_OF_WEATHER_DAY
-                !isDay -> DisplayWeather14d.TYPE_OF_WEATHER_NIGHT
+                isRain -> RAIN
+                isShowers -> SHOWERS
+                isSnow -> SNOW
+                isDay -> DAY
+                !isDay -> NIGHT
                 else -> throw RuntimeException("Unknown type of weather")
             }
 
@@ -154,10 +155,10 @@ class WeatherMapper {
             displayWeather14d = DisplayWeather14d(
                 dayOfWeek = dayOfWeek,
                 date = formattedDate,
-                minTemperature = daily.temperature_2m_min[index],
-                maxTemperature = daily.temperature_2m_max[index],
+                minTemperature = minTemperature,
+                maxTemperature = maxTemperature,
                 isPicked = isPicked,
-                typeOfWeather = typeOfWeather,
+                typeOfWeather = typeOfWeather.type,
             )
 
             list.add(displayWeather14d)

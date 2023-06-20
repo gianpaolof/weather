@@ -7,6 +7,7 @@ import com.example.weather.R
 import com.example.weather.app.presentation.adapters.diff_callbacks.Weather24hItemDiffCallback
 import com.example.weather.app.presentation.adapters.viewholders.Weather24hViewHolder
 import com.example.weather.domain.models.todisplay.DisplayWeather24h
+import com.example.weather.data.WeatherType.*
 
 class Weather24hAdapter :
     ListAdapter<DisplayWeather24h, Weather24hViewHolder>(Weather24hItemDiffCallback()) {
@@ -30,11 +31,11 @@ class Weather24hAdapter :
         holder.temp.text = temperature
 
         val img = when (currentItem.typeOfWeather) {
-            DisplayWeather24h.TYPE_OF_WEATHER_RAIN -> R.drawable.ic_rainshower
-            DisplayWeather24h.TYPE_OF_WEATHER_SHOWERS -> R.drawable.ic_rainythunder
-            DisplayWeather24h.TYPE_OF_WEATHER_SNOW -> R.drawable.ic_heavysnow
-            DisplayWeather24h.TYPE_OF_WEATHER_DAY -> R.drawable.ic_day
-            DisplayWeather24h.TYPE_OF_WEATHER_NIGHT -> R.drawable.ic_night
+            RAIN.type -> R.drawable.ic_rainshower
+            SHOWERS.type -> R.drawable.ic_rainythunder
+            SNOW.type -> R.drawable.ic_heavysnow
+            DAY.type -> R.drawable.ic_day
+            NIGHT.type -> R.drawable.ic_night
             else -> throw RuntimeException("Unknown type of weather - ${currentItem.typeOfWeather}")
         }
 

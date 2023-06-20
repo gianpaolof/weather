@@ -10,6 +10,7 @@ import com.example.weather.app.App
 import com.example.weather.app.presentation.adapters.Weather14dAdapter
 import com.example.weather.app.presentation.adapters.Weather24hAdapter
 import com.example.weather.app.presentation.weather_presenter.WeatherPresenter
+import com.example.weather.data.WeatherType.*
 import com.example.weather.databinding.ActivityMainBinding
 import com.example.weather.domain.models.todisplay.DisplayWeather14d
 import com.example.weather.domain.models.todisplay.DisplayWeather24h
@@ -63,11 +64,11 @@ class MainActivity : AppCompatActivity(), MainView {
         binding.todayDate.text = displayWeatherNow.todayDate
 
         val img = when (displayWeatherNow.typeOfWeatherNow) {
-            DisplayWeatherNow.TYPE_OF_WEATHER_RAIN -> R.drawable.ic_rainshower
-            DisplayWeatherNow.TYPE_OF_WEATHER_SHOWERS -> R.drawable.ic_rainythunder
-            DisplayWeatherNow.TYPE_OF_WEATHER_SNOW -> R.drawable.ic_heavysnow
-            DisplayWeatherNow.TYPE_OF_WEATHER_DAY -> R.drawable.ic_day
-            DisplayWeatherNow.TYPE_OF_WEATHER_NIGHT -> R.drawable.ic_night
+            RAIN.type -> R.drawable.ic_rainshower
+            SHOWERS.type -> R.drawable.ic_rainythunder
+            SNOW.type -> R.drawable.ic_heavysnow
+            DAY.type -> R.drawable.ic_day
+            NIGHT.type -> R.drawable.ic_night
             else -> throw RuntimeException("Unknown type of weather - ${displayWeatherNow.typeOfWeatherNow}")
         }
 
@@ -101,7 +102,7 @@ class MainActivity : AppCompatActivity(), MainView {
             summaryTemperatureValue.text = summary.min_max_temperature
             summaryPrecipitationProbabilityValue.text = summary.drop
             summaryWindValue.text = summary.wind
-            summaryRelativeHumidityValue.text = summary.apparent_min_max_temperature
+            summaryApparentTempValue.text = summary.apparent_min_max_temperature
         }
     }
 
