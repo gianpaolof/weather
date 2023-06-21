@@ -19,7 +19,7 @@ class WeatherRepositoryImpl @Inject constructor(
     override fun getWeatherNow(latitude: Double, longitude: Double): Single<DisplayWeatherNow> {
         return WeatherInstance.api.getWeatherNow(latitude, longitude)
             .subscribeOn(schedulers.io())
-            .observeOn(schedulers.single())
+            .observeOn(schedulers.io())
             .map { weatherNow ->
                 mapper.mapApiToDisplay(weatherNow)
             }
@@ -31,7 +31,7 @@ class WeatherRepositoryImpl @Inject constructor(
     override fun getWeather24h(latitude: Double, longitude: Double): Single<Pair<DisplayWeather24h, List<DisplayWeather24h>>> {
         return WeatherInstance.api.getWeather24h(latitude, longitude)
             .subscribeOn(schedulers.io())
-            .observeOn(schedulers.single())
+            .observeOn(schedulers.io())
             .map { weather24h ->
                 mapper.mapApiToDisplay(weather24h)
             }
@@ -46,7 +46,7 @@ class WeatherRepositoryImpl @Inject constructor(
         return Pair(
             first = WeatherInstance.api.getWeather14d(latitude, longitude)
                 .subscribeOn(schedulers.io())
-                .observeOn(schedulers.single())
+                .observeOn(schedulers.io())
                 .map { weather14d ->
                     mapper.mapApiToDisplay(
                         weather14d = weather14d,
@@ -58,7 +58,7 @@ class WeatherRepositoryImpl @Inject constructor(
                 },
             second = WeatherInstance.api.getWeather14d(latitude, longitude)
                 .subscribeOn(schedulers.io())
-                .observeOn(schedulers.single())
+                .observeOn(schedulers.io())
                 .map { weather14d ->
                     mapper.mapApiToDisplay(
                         weather14d = weather14d,
