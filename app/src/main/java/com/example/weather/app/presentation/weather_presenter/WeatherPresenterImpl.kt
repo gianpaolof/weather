@@ -8,6 +8,7 @@ import com.example.weather.domain.usecase.weather.GetWeather14dUseCase
 import com.example.weather.domain.usecase.weather.GetWeather24hUseCase
 import com.example.weather.domain.usecase.weather.GetWeatherNowUseCase
 import io.reactivex.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 
 class WeatherPresenterImpl(
     private val getWeatherNowUseCase: GetWeatherNowUseCase,
@@ -39,6 +40,8 @@ class WeatherPresenterImpl(
         disposables.add(getWeatherNowUseCase.getWeatherNow(latitude, longitude)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
+            .doOnSubscribe { view?.showProgress() }
+            .doFinally { view?.hideProgress() }
             .subscribe(
                 {
                     view?.showWeatherNow(it)
@@ -53,6 +56,8 @@ class WeatherPresenterImpl(
         disposables.add(getWeather24hUseCase.getWeather24h(latitude, longitude)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
+            .doOnSubscribe { view?.showProgress() }
+            .doFinally { view?.hideProgress() }
             .subscribe(
                 {
                     view?.showWeather24h(
@@ -75,6 +80,8 @@ class WeatherPresenterImpl(
             .first
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
+            .doOnSubscribe { view?.showProgress() }
+            .doFinally { view?.hideProgress() }
             .subscribe(
                 {
                     view?.showWeather14d(
@@ -94,6 +101,8 @@ class WeatherPresenterImpl(
             .second
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
+            .doOnSubscribe { view?.showProgress() }
+            .doFinally { view?.hideProgress() }
             .subscribe(
                 {
                     view?.showWeatherSummary(it)

@@ -107,22 +107,14 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
     }
 
     override fun showProgress() {
-        TODO("Not yet implemented")
+        binding.progress.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        TODO("Not yet implemented")
+        binding.progress.visibility = View.GONE
     }
 
     override fun showWeatherNow(displayWeatherNow: DisplayWeatherNow) {
-        binding.mainTemp.text = displayWeatherNow.temperature
-        binding.maxMin.text = displayWeatherNow.maxMinTemperature
-        binding.precipitationProbability.text = displayWeatherNow.precipitationProbability
-        binding.relativeHumidity.text = displayWeatherNow.relativeHumidity
-        binding.windSpeed.text = displayWeatherNow.windSpeed
-
-        binding.todayDate.text = displayWeatherNow.todayDate
-
         val img = when (displayWeatherNow.typeOfWeatherNow) {
             RAIN.type -> R.drawable.ic_rainshower
             SHOWERS.type -> R.drawable.ic_rainythunder
@@ -132,17 +124,26 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
             else -> throw RuntimeException("Unknown type of weather - ${displayWeatherNow.typeOfWeatherNow}")
         }
 
-        binding.mainImg.setImageResource(img)
+        with(binding) {
+            mainTemp.text = displayWeatherNow.temperature
+            maxMin.text = displayWeatherNow.maxMinTemperature
+            precipitationProbability.text = displayWeatherNow.precipitationProbability
+            relativeHumidity.text = displayWeatherNow.relativeHumidity
+            windSpeed.text = displayWeatherNow.windSpeed
+            todayDate.text = displayWeatherNow.todayDate
+            mainImg.setImageResource(img)
 
-        if (displayWeatherNow.isDay) {
-            binding.linearLayout.background =
-                ContextCompat.getDrawable(this, R.drawable.ic_background_day)
-            binding.mainConstraint.background = ContextCompat.getDrawable(this, R.color.sky)
-        } else {
-            binding.linearLayout.background =
-                ContextCompat.getDrawable(this, R.drawable.ic_background_night)
-            binding.mainConstraint.background = ContextCompat.getDrawable(this, R.color.blue)
+            if (displayWeatherNow.isDay) {
+                linearLayout.background =
+                    ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_background_day)
+                mainConstraint.background = ContextCompat.getDrawable(this@MainActivity, R.color.sky)
+            } else {
+                linearLayout.background =
+                    ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_background_night)
+                mainConstraint.background = ContextCompat.getDrawable(this@MainActivity, R.color.blue)
+            }
         }
+
     }
 
     override fun showWeather24h(
@@ -171,9 +172,7 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
         }
     }
 
-    override fun showCitiesResult(city: List<CityModel>) {
-        cityAdapter.submitList(city)
-    }
+    override fun showCitiesResult(city: List<CityModel>) { cityAdapter.submitList(city) }
 
     override fun getLocation(location: LiveData<Pair<Double, Double>>) {
         if (location != null) {
