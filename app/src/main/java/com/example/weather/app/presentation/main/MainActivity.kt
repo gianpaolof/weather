@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
         weatherPresenter.getWeatherNow(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
         weatherPresenter.getWeather24h(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
         weatherPresenter.getWeather14d(null, DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
-        binding.searchLayout.hint = DEFAULT_CITY
+        binding.searchLayout.hint = resources.getString(R.string.default_city)
     }
 
     private fun setLocationWeather(latitude: Double, longitude: Double, city: String) {
@@ -127,8 +127,8 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
             RAIN.type -> R.drawable.ic_rainshower
             SHOWERS.type -> R.drawable.ic_rainythunder
             SNOW.type -> R.drawable.ic_heavysnow
-            DAY.type -> R.drawable.ic_day
-            NIGHT.type -> R.drawable.ic_night
+            DAY.type -> R.drawable.ic_sun_3d
+            NIGHT.type -> R.drawable.ic_moon_3d
             else -> throw RuntimeException("Unknown type of weather - ${displayWeatherNow.typeOfWeatherNow}")
         }
 
@@ -263,6 +263,5 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
     companion object {
         private const val DEFAULT_LATITUDE = 53.22
         private const val DEFAULT_LONGITUDE = 55.56
-        private const val DEFAULT_CITY = "Салават"
     }
 }

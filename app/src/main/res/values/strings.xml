@@ -13,4 +13,9 @@
     <string name="today">Today</string>
     <string name="unknown">Unknown</string>
     <string name="search_city">Type city</string>
+    <string name="m_s">m/s</string>
+    <string name="alert">GPS is not enabled. Do you want to go to settings menu?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="default_city">Salavat</string>
 </resources>

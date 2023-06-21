@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
 
-class WeatherMapper {
+class WeatherMapper(private val context: Context) {
 
     fun mapApiToDisplay(weatherNow: WeatherNow) : DisplayWeatherNow {
         val currentWeather = weatherNow.current_weather
@@ -43,7 +43,7 @@ class WeatherMapper {
             "${daily.precipitation_probability_max.first()}" +
                     weatherNow.daily_units.precipitation_probability_max
 
-        val windSpeed = "${currentWeather.windspeed} m/s"
+        val windSpeed = "${currentWeather.windspeed} " + context.resources.getString(R.string.m_s)
 
         val relativeHumidity =
             "${hourly.relativehumidity_2m[index]}" +
@@ -120,7 +120,6 @@ class WeatherMapper {
     fun mapApiToDisplay(
         weather14d: Weather14d,
         pickedDate: String?,
-        context: Context
     ) : Pair<Pair<DisplayWeather14d, List<DisplayWeather14d>>, Summary> {
 
         val list = mutableListOf<DisplayWeather14d>()
@@ -188,8 +187,8 @@ class WeatherMapper {
                             weather14d.daily_units.precipitation_probability_max
                 }
 
-                val wind = "${daily.windspeed_10m_max[index]}" +
-                        weather14d.daily_units.windspeed_10m_max
+                val wind = "${daily.windspeed_10m_max[index]} " +
+                        context.resources.getString(R.string.m_s)
 
                 val sunrise = daily.sunrise[index].substringAfter("T")
                 val sunset = daily.sunset[index].substringAfter("T")

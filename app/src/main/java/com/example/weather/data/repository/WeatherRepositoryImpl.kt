@@ -1,6 +1,5 @@
 package com.example.weather.data.repository
 
-import android.content.Context
 import com.example.weather.app.schedulers.SchedulerProvider
 import com.example.weather.data.api.weather.WeatherInstance
 import com.example.weather.data.mappers.WeatherMapper
@@ -13,11 +12,9 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
-    private val context: Context,
+    private val mapper: WeatherMapper,
     private val schedulers: SchedulerProvider
 ) : WeatherRepository {
-
-    private val mapper = WeatherMapper()
 
     override fun getWeatherNow(latitude: Double, longitude: Double): Single<DisplayWeatherNow> {
         return WeatherInstance.api.getWeatherNow(latitude, longitude)
@@ -53,8 +50,7 @@ class WeatherRepositoryImpl @Inject constructor(
                 .map { weather14d ->
                     mapper.mapApiToDisplay(
                         weather14d = weather14d,
-                        pickedDate = pickedDate,
-                        context = context
+                        pickedDate = pickedDate
                     ).first
                 }
                 .onErrorReturn {
@@ -66,8 +62,7 @@ class WeatherRepositoryImpl @Inject constructor(
                 .map { weather14d ->
                     mapper.mapApiToDisplay(
                         weather14d = weather14d,
-                        pickedDate = pickedDate,
-                        context = context
+                        pickedDate = pickedDate
                     ).second
                 }
                 .onErrorReturn {

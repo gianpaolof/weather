@@ -2,6 +2,7 @@ package com.example.weather.app.di
 
 import android.content.Context
 import com.example.weather.app.schedulers.SchedulerProvider
+import com.example.weather.data.mappers.WeatherMapper
 import com.example.weather.data.repository.CityRepositoryImpl
 import com.example.weather.data.repository.WeatherRepositoryImpl
 import com.example.weather.domain.repository.CityRepository
@@ -13,11 +14,14 @@ import dagger.Provides
 class DataModule {
 
     @Provides
+    fun provideWeatherMapper(context: Context): WeatherMapper = WeatherMapper(context)
+
+    @Provides
     fun provideWeatherRepository(
-        context: Context,
+        weatherMapper: WeatherMapper,
         schedulerProvider: SchedulerProvider
     ): WeatherRepository {
-        return WeatherRepositoryImpl(context = context, schedulers = schedulerProvider)
+        return WeatherRepositoryImpl(mapper = weatherMapper, schedulers = schedulerProvider)
     }
 
     @Provides

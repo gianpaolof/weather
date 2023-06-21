@@ -14,4 +14,9 @@
     <string name="today">Сегодня</string>
     <string name="unknown">Неизвестно</string>
     <string name="search_city">Введите город</string>
+    <string name="m_s">м/с</string>
+    <string name="alert">GPS не включен. Вы хотите перейти в меню настроек?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="default_city">Салават</string>
 </resources>

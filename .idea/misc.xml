@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/projects/weather/app/src/main/res/drawable/ic_background_day.xml" value="0.24" />
+        <entry key="..\:/projects/weather/app/src/main/res/drawable/ic_day.xml" value="0.241" />
+        <entry key="..\:/projects/weather/app/src/main/res/drawable/ic_night.xml" value="0.241" />
+        <entry key="..\:/projects/weather/app/src/main/res/drawable/ic_sun_3d.xml" value="0.196" />
         <entry key="..\:/projects/weather/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/projects/weather/app/src/main/res/layout/city_item.xml" value="0.365625" />
         <entry key="..\:/projects/weather/app/src/main/res/layout/weather_14d_checked_item.xml" value="0.365625" />

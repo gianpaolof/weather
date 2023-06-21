@@ -9,6 +9,7 @@ import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.weather.R
 import com.example.weather.app.presentation.main.MainActivity
 
 class LocationPermissionHelper(private val activity: MainActivity) {
@@ -46,12 +47,12 @@ class LocationPermissionHelper(private val activity: MainActivity) {
         val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         if (!isGpsEnabled) {
             val builder = AlertDialog.Builder(activity)
-            builder.setMessage("GPS is not enabled. Do you want to go to settings menu?")
+            builder.setMessage(activity.resources.getString(R.string.alert))
                 .setCancelable(false)
-                .setPositiveButton("Yes") { _, _ ->
+                .setPositiveButton(activity.resources.getString(R.string.yes)) { _, _ ->
                     activity.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 }
-                .setNegativeButton("No") { dialog, _ ->
+                .setNegativeButton(activity.resources.getString(R.string.no)) { dialog, _ ->
                     dialog.cancel()
                 }
             val alert = builder.create()
