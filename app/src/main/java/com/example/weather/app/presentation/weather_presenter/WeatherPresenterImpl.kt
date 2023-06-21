@@ -27,8 +27,8 @@ class WeatherPresenterImpl(
         disposables.dispose()
     }
 
-    override fun getWeatherNow() {
-        disposables.add(getWeatherNowUseCase.getWeatherNow()
+    override fun getWeatherNow(latitude: Double, longitude: Double) {
+        disposables.add(getWeatherNowUseCase.getWeatherNow(latitude, longitude)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .subscribe(
@@ -41,8 +41,8 @@ class WeatherPresenterImpl(
         )
     }
 
-    override fun getWeather24h() {
-        disposables.add(getWeather24hUseCase.getWeather24h()
+    override fun getWeather24h(latitude: Double, longitude: Double) {
+        disposables.add(getWeather24hUseCase.getWeather24h(latitude, longitude)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .subscribe(
@@ -58,8 +58,12 @@ class WeatherPresenterImpl(
         )
     }
 
-    override fun getWeather14d(pickedDate: String?) {
-        disposables.add(getWeather14dUseCase.getWeather14d(pickedDate = pickedDate)
+    override fun getWeather14d(pickedDate: String?, latitude: Double, longitude: Double) {
+        disposables.add(getWeather14dUseCase.getWeather14d(
+            pickedDate = pickedDate,
+            latitude = latitude,
+            longitude = longitude
+        )
             .first
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
@@ -74,7 +78,11 @@ class WeatherPresenterImpl(
                 }
             )
         )
-        disposables.add(getWeather14dUseCase.getWeather14d(pickedDate = pickedDate)
+        disposables.add(getWeather14dUseCase.getWeather14d(
+            pickedDate = pickedDate,
+            latitude = latitude,
+            longitude = longitude
+        )
             .second
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())

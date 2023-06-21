@@ -8,10 +8,10 @@ interface WeatherPresenter {
 
     fun detachView()
 
-    fun getWeatherNow()
+    fun getWeatherNow(latitude: Double, longitude: Double)
 
-    fun getWeather24h()
+    fun getWeather24h(latitude: Double, longitude: Double)
 
-    fun getWeather14d(pickedDate: String?)
+    fun getWeather14d(pickedDate: String?, latitude: Double, longitude: Double)
 
 }

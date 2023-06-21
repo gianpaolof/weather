@@ -6,8 +6,8 @@ import io.reactivex.Single
 
 class GetWeather24hUseCase(private val weatherRepository: WeatherRepository) {
 
-    fun getWeather24h(): Single<Pair<DisplayWeather24h, List<DisplayWeather24h>>> {
-        return weatherRepository.getWeather24h()
+    fun getWeather24h(latitude: Double, longitude: Double): Single<Pair<DisplayWeather24h, List<DisplayWeather24h>>> {
+        return weatherRepository.getWeather24h(latitude, longitude)
     }
 
 }

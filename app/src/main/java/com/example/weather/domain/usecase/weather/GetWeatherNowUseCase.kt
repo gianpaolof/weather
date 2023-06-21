@@ -6,8 +6,8 @@ import io.reactivex.Single
 
 class GetWeatherNowUseCase(private val weatherRepository: WeatherRepository) {
 
-    fun getWeatherNow(): Single<DisplayWeatherNow> {
-        return weatherRepository.getWeatherNow()
+    fun getWeatherNow(latitude: Double, longitude: Double): Single<DisplayWeatherNow> {
+        return weatherRepository.getWeatherNow(latitude, longitude)
     }
 
 }

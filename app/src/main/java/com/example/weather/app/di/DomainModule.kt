@@ -1,6 +1,8 @@
 package com.example.weather.app.di
 
+import com.example.weather.domain.repository.CityRepository
 import com.example.weather.domain.repository.WeatherRepository
+import com.example.weather.domain.usecase.city.GetCityUseCase
 import com.example.weather.domain.usecase.weather.GetWeather14dUseCase
 import com.example.weather.domain.usecase.weather.GetWeather24hUseCase
 import com.example.weather.domain.usecase.weather.GetWeatherNowUseCase
@@ -23,6 +25,11 @@ class DomainModule {
     @Provides
     fun provideGetWeatherNowUseCase(weatherRepository: WeatherRepository): GetWeatherNowUseCase {
         return GetWeatherNowUseCase(weatherRepository = weatherRepository)
+    }
+
+    @Provides
+    fun provideGetCityUseCase(cityRepository: CityRepository): GetCityUseCase {
+        return GetCityUseCase(cityRepository = cityRepository)
     }
 
 }

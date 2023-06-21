@@ -2,12 +2,13 @@ package com.example.weather.app.di
 
 import android.app.Application
 import android.content.Context
-import com.example.weather.app.presentation.main.MainActivity
-import com.example.weather.app.presentation.main.MainView
+import com.example.weather.app.presentation.city_presenter.CityPresenter
+import com.example.weather.app.presentation.city_presenter.CityPresenterImpl
 import com.example.weather.app.presentation.weather_presenter.WeatherPresenter
 import com.example.weather.app.presentation.weather_presenter.WeatherPresenterImpl
 import com.example.weather.app.schedulers.AppSchedulerProvider
 import com.example.weather.app.schedulers.SchedulerProvider
+import com.example.weather.domain.usecase.city.GetCityUseCase
 import com.example.weather.domain.usecase.weather.GetWeather14dUseCase
 import com.example.weather.domain.usecase.weather.GetWeather24hUseCase
 import com.example.weather.domain.usecase.weather.GetWeatherNowUseCase
@@ -35,6 +36,17 @@ class AppModule(private val application: Application) {
             getWeather24hUseCase = getWeather24hUseCase,
             getWeather14dUseCase = getWeather14dUseCase,
             schedulers = schedulerProvider,
+        )
+    }
+
+    @Provides
+    fun provideCityPresenter(
+        getCityUseCase: GetCityUseCase,
+        schedulerProvider: SchedulerProvider,
+    ): CityPresenter {
+        return CityPresenterImpl(
+            getCityUseCase = getCityUseCase,
+            schedulers = schedulerProvider
         )
     }
 

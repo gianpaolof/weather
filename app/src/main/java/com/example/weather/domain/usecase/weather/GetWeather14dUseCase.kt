@@ -5,10 +5,18 @@ import com.example.weather.domain.models.todisplay.Summary
 import com.example.weather.domain.repository.WeatherRepository
 import io.reactivex.Single
 
-class GetWeather14dUseCase (private val weatherRepository: WeatherRepository) {
+class GetWeather14dUseCase(private val weatherRepository: WeatherRepository) {
 
-    fun getWeather14d(pickedDate: String?): Pair<Single<Pair<DisplayWeather14d, List<DisplayWeather14d>>>, Single<Summary>> {
-        return weatherRepository.getWeather14d(pickedDate = pickedDate)
+    fun getWeather14d(
+        pickedDate: String?,
+        latitude: Double,
+        longitude: Double
+    ): Pair<Single<Pair<DisplayWeather14d, List<DisplayWeather14d>>>, Single<Summary>> {
+        return weatherRepository.getWeather14d(
+            pickedDate = pickedDate,
+            latitude = latitude,
+            longitude = longitude
+        )
     }
 
 }

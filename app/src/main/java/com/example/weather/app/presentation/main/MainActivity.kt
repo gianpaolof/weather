@@ -6,19 +6,25 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.app.App
+import com.example.weather.app.presentation.adapters.CityAdapter
 import com.example.weather.app.presentation.adapters.Weather14dAdapter
 import com.example.weather.app.presentation.adapters.Weather24hAdapter
+import com.example.weather.app.presentation.city_presenter.CityPresenter
 import com.example.weather.app.presentation.permission.LocationPermissionHelper
 import com.example.weather.app.presentation.weather_presenter.WeatherPresenter
 import com.example.weather.data.WeatherType.*
 import com.example.weather.databinding.ActivityMainBinding
+import com.example.weather.domain.models.city.CityModel
 import com.example.weather.domain.models.todisplay.DisplayWeather14d
 import com.example.weather.domain.models.todisplay.DisplayWeather24h
 import com.example.weather.domain.models.todisplay.DisplayWeatherNow
@@ -30,6 +36,7 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
     private lateinit var binding: ActivityMainBinding
 
     @Inject lateinit var weatherPresenter: WeatherPresenter
+    @Inject lateinit var cityPresenter: CityPresenter
 
     private lateinit var recyclerWeather24h: RecyclerView
     private lateinit var adapterWeather24h: Weather24hAdapter
@@ -37,11 +44,16 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
     private lateinit var recyclerWeather14d: RecyclerView
     private lateinit var adapterWeather14d: Weather14dAdapter
 
+    private lateinit var cityRecycler: RecyclerView
+    private lateinit var cityAdapter: CityAdapter
+
     private lateinit var permissionHelper: LocationPermissionHelper
     private lateinit var locationManager: LocationManager
 
-    private var latitude: Double? = null
-    private var longitude: Double? = null
+    private lateinit var latitude: String
+    private lateinit var longitude: String
+
+    private val isLocation = this::latitude.isInitialized && this::longitude.isInitialized
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,12 +69,28 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
 
         initWeather24hRecycler()
         initWeather14dRecycler()
+        initCityRecycler()
 
         weatherPresenter.attachView(this)
+        cityPresenter.attachView(this)
 
-        weatherPresenter.getWeatherNow()
-        weatherPresenter.getWeather24h()
-        weatherPresenter.getWeather14d(null)
+        if (!isLocation) {
+            setDefaultWeather()
+        } else {
+            setLocationWeather(latitude.toDouble(), longitude.toDouble())
+        }
+    }
+
+    private fun setDefaultWeather() {
+        weatherPresenter.getWeatherNow(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
+        weatherPresenter.getWeather24h(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
+        weatherPresenter.getWeather14d(null, DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
+    }
+
+    private fun setLocationWeather(latitude: Double, longitude: Double) {
+        weatherPresenter.getWeatherNow(latitude, longitude)
+        weatherPresenter.getWeather24h(latitude, longitude)
+        weatherPresenter.getWeather14d(null, latitude, longitude)
     }
 
     @SuppressLint("MissingPermission")
@@ -76,8 +104,8 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
                     LocationManager.GPS_PROVIDER, 120000, 0F
                 ) { p0: Location? ->
                     if (p0 != null) {
-                        latitude = p0.latitude
-                        longitude = p0.longitude
+                        latitude = p0.latitude.toString()
+                        longitude = p0.longitude.toString()
                     }
                 }
             }
@@ -86,8 +114,8 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
                     LocationManager.NETWORK_PROVIDER, 120000, 0F
                 ) { p0: Location? ->
                     if (p0 != null) {
-                        latitude = p0.latitude
-                        longitude = p0.longitude
+                        latitude = p0.latitude.toString()
+                        longitude = p0.longitude.toString()
                     }
                 }
             }
@@ -97,6 +125,25 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun searchRequest() {
+        binding.search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0 != null) {
+                    cityPresenter.getCity(p0.toString())
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+        })
+
+        if (binding.search.editableText.isEmpty()) {
+            cityAdapter.currentList.clear()
+        }
     }
 
     override fun showProgress() {
@@ -143,7 +190,11 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
     override fun showWeather14d(displayWeather14d: DisplayWeather14d, listDisplayWeather14d: List<DisplayWeather14d>) {
         adapterWeather14d.submitList(listDisplayWeather14d)
         adapterWeather14d.onWeatherClickListener = {
-            weatherPresenter.getWeather14d(it.date)
+            if (isLocation) {
+                weatherPresenter.getWeather14d(it.date, latitude.toDouble(), longitude.toDouble())
+            } else {
+                weatherPresenter.getWeather14d(it.date, DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
+            }
         }
     }
 
@@ -157,6 +208,10 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
             summaryWindValue.text = summary.wind
             summaryApparentTempValue.text = summary.apparent_max_min_temperature
         }
+    }
+
+    override fun showCitiesResult(city: List<CityModel>) {
+        cityAdapter.submitList(city)
     }
 
     private fun initWeather24hRecycler() {
@@ -187,14 +242,41 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
             )
     }
 
+    private fun initCityRecycler() {
+        cityRecycler = binding.recyclerCity
+        cityRecycler.layoutManager =
+            LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+        cityAdapter = CityAdapter()
+        cityRecycler.adapter = cityAdapter
+
+        cityRecycler.visibility = if (cityAdapter.currentList.isNotEmpty()) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
+        cityAdapter.onCityClickListener = {
+            latitude = it.lat
+            longitude = it.lon
+
+            setLocationWeather(latitude.toDouble(), longitude.toDouble())
+
+            binding.search.clearFocus()
+            binding.search.editableText.clear()
+        }
+
+        searchRequest()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         weatherPresenter.detachView()
+        cityPresenter.detachView()
     }
 
     override fun onLocationChanged(p0: Location) {
-        latitude = p0.latitude
-        longitude = p0.longitude
+        latitude = p0.latitude.toString()
+        longitude = p0.longitude.toString()
         Log.e("onLocationChanged", p0.toString())
     }
 
@@ -205,5 +287,11 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
 
     override fun onProviderDisabled(provider: String) {
         Log.e("Provider", "Disabled")
+    }
+
+    companion object {
+        private const val DEFAULT_LATITUDE = 53.38
+        private const val DEFAULT_LONGITUDE = 55.91
+        private const val DEFAULT_CITY = "Салават"
     }
 }

@@ -8,10 +8,17 @@ import io.reactivex.Single
 
 interface WeatherRepository {
 
-    fun getWeatherNow(): Single<DisplayWeatherNow>
+    fun getWeatherNow(latitude: Double, longitude: Double): Single<DisplayWeatherNow>
 
-    fun getWeather24h(): Single<Pair<DisplayWeather24h, List<DisplayWeather24h>>>
+    fun getWeather24h(
+        latitude: Double,
+        longitude: Double
+    ): Single<Pair<DisplayWeather24h, List<DisplayWeather24h>>>
 
-    fun getWeather14d(pickedDate: String?): Pair<Single<Pair<DisplayWeather14d, List<DisplayWeather14d>>>, Single<Summary>>
+    fun getWeather14d(
+        pickedDate: String?,
+        latitude: Double,
+        longitude: Double
+    ): Pair<Single<Pair<DisplayWeather14d, List<DisplayWeather14d>>>, Single<Summary>>
 
 }

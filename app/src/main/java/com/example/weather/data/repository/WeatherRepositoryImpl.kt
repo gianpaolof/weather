@@ -19,8 +19,8 @@ class WeatherRepositoryImpl @Inject constructor(
 
     private val mapper = WeatherMapper()
 
-    override fun getWeatherNow(): Single<DisplayWeatherNow> {
-        return WeatherInstance.api.getWeatherNow()
+    override fun getWeatherNow(latitude: Double, longitude: Double): Single<DisplayWeatherNow> {
+        return WeatherInstance.api.getWeatherNow(latitude, longitude)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.single())
             .map { weatherNow ->
@@ -31,8 +31,8 @@ class WeatherRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getWeather24h(): Single<Pair<DisplayWeather24h, List<DisplayWeather24h>>> {
-        return WeatherInstance.api.getWeather24h()
+    override fun getWeather24h(latitude: Double, longitude: Double): Single<Pair<DisplayWeather24h, List<DisplayWeather24h>>> {
+        return WeatherInstance.api.getWeather24h(latitude, longitude)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.single())
             .map { weather24h ->
@@ -43,11 +43,11 @@ class WeatherRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getWeather14d(pickedDate: String?):
+    override fun getWeather14d(pickedDate: String?, latitude: Double, longitude: Double):
             Pair<Single<Pair<DisplayWeather14d, List<DisplayWeather14d>>>, Single<Summary>> {
 
         return Pair(
-            first = WeatherInstance.api.getWeather14d()
+            first = WeatherInstance.api.getWeather14d(latitude, longitude)
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.single())
                 .map { weather14d ->
@@ -60,7 +60,7 @@ class WeatherRepositoryImpl @Inject constructor(
                 .onErrorReturn {
                     throw RuntimeException(it.message)
                 },
-            second = WeatherInstance.api.getWeather14d()
+            second = WeatherInstance.api.getWeather14d(latitude, longitude)
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.single())
                 .map { weather14d ->
