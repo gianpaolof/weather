@@ -80,34 +80,39 @@ class WeatherMapper {
         val hourly = weather24h.hourly
         val isDay = hourly.is_day
         val currentTime = weather24h.current_weather.time
-        val hourlyTime = hourly.time.filter { it == currentTime }
-        val index = hourlyTime.indexOf(currentTime)
-        val range = index..index + 23
+        val hourlyTime = hourly.time
+        hourlyTime.forEach {
+            if (it == currentTime) {
+                val index = hourlyTime.indexOf(currentTime)
+                val range = index..index + FULL_DAY_HOURS
 
-        for (i in range) {
-            val displayIsDay = isDay[i] == 1
-            val displayTime = hourly.time[i].substringAfter("T")
+                for (i in range) {
+                    val displayIsDay = isDay[i] == 1
+                    val displayTime = hourly.time[i].substringAfter("T")
 
-            val isRain = hourly.rain[i] > 0
-            val isShowers = hourly.showers[i] > 0
-            val isSnow = hourly.snowfall[i] > 0
+                    val isRain = hourly.rain[i] > 0
+                    val isShowers = hourly.showers[i] > 0
+                    val isSnow = hourly.snowfall[i] > 0
 
-            val typeOfWeather = when {
-                isRain -> RAIN
-                isShowers -> SHOWERS
-                isSnow -> SNOW
-                displayIsDay -> DAY
-                !displayIsDay -> NIGHT
-                else -> throw RuntimeException("Unknown type of weather")
+                    val typeOfWeather = when {
+                        isRain -> RAIN
+                        isShowers -> SHOWERS
+                        isSnow -> SNOW
+                        displayIsDay -> DAY
+                        !displayIsDay -> NIGHT
+                        else -> throw RuntimeException("Unknown type of weather")
+                    }
+
+                    displayWeather24h = DisplayWeather24h(
+                        temperature = hourly.temperature_2m[i],
+                        time = displayTime,
+                        typeOfWeather = typeOfWeather.type,
+                    )
+                    list.add(displayWeather24h)
+                }
             }
-
-            displayWeather24h = DisplayWeather24h(
-                temperature = hourly.temperature_2m[i],
-                time = displayTime,
-                typeOfWeather = typeOfWeather.type,
-            )
-            list.add(displayWeather24h)
         }
+
 
         return Pair(first = displayWeather24h, second = list)
     }
@@ -210,6 +215,7 @@ class WeatherMapper {
 
     companion object {
         private const val INDEX_TODAY = 0
+        private const val FULL_DAY_HOURS = 23
     }
 
 }

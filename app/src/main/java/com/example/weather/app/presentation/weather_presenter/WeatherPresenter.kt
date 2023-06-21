@@ -14,4 +14,8 @@ interface WeatherPresenter {
 
     fun getWeather14d(pickedDate: String?, latitude: Double, longitude: Double)
 
+    fun setLocation(longitude: Double, latitude: Double)
+
+    fun getLocation()
+
 }

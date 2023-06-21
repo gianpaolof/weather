@@ -1,5 +1,7 @@
 package com.example.weather.app.presentation.weather_presenter
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.weather.app.presentation.main.MainView
 import com.example.weather.app.schedulers.SchedulerProvider
 import com.example.weather.domain.usecase.weather.GetWeather14dUseCase
@@ -18,6 +20,9 @@ class WeatherPresenterImpl(
 
     private var view: MainView? = null
 
+    private val _location = MutableLiveData<Pair<Double, Double>>()
+    private val location: LiveData<Pair<Double, Double>> = _location
+
     override fun attachView(view: MainView) {
         this.view = view
     }
@@ -25,6 +30,9 @@ class WeatherPresenterImpl(
     override fun detachView() {
         this.view = null
         disposables.dispose()
+        view?.let {
+            location.removeObservers(it)
+        }
     }
 
     override fun getWeatherNow(latitude: Double, longitude: Double) {
@@ -94,5 +102,13 @@ class WeatherPresenterImpl(
                 }
             )
         )
+    }
+
+    override fun setLocation(longitude: Double, latitude: Double) {
+        _location.postValue(Pair(first = longitude, second = latitude))
+    }
+
+    override fun getLocation() {
+        view?.getLocation(location)
     }
 }
