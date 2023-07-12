@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,9 +18,9 @@ import com.example.weather.app.App
 import com.example.weather.app.presentation.adapters.CityAdapter
 import com.example.weather.app.presentation.adapters.Weather14dAdapter
 import com.example.weather.app.presentation.adapters.Weather24hAdapter
-import com.example.weather.app.presentation.city_presenter.CityPresenter
+import com.example.weather.app.presentation.city_presenter.CityPresenterImpl
 import com.example.weather.app.presentation.permission.LocationPermissionHelper
-import com.example.weather.app.presentation.weather_presenter.WeatherPresenter
+import com.example.weather.app.presentation.weather_presenter.WeatherPresenterImpl
 import com.example.weather.data.WeatherType.*
 import com.example.weather.databinding.ActivityMainBinding
 import com.example.weather.domain.models.city.CityModel
@@ -29,15 +28,16 @@ import com.example.weather.domain.models.todisplay.DisplayWeather14d
 import com.example.weather.domain.models.todisplay.DisplayWeather24h
 import com.example.weather.domain.models.todisplay.DisplayWeatherNow
 import com.example.weather.domain.models.todisplay.Summary
+import moxy.MvpAppCompatActivity
 import java.util.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainView, LocationListener {
+class MainActivity : MvpAppCompatActivity(), MainView, LocationListener {
 
     private lateinit var binding: ActivityMainBinding
 
-    @Inject lateinit var weatherPresenter: WeatherPresenter
-    @Inject lateinit var cityPresenter: CityPresenter
+    @Inject lateinit var weatherPresenter: WeatherPresenterImpl
+    @Inject lateinit var cityPresenter: CityPresenterImpl
 
     private lateinit var recyclerWeather24h: RecyclerView
     private lateinit var adapterWeather24h: Weather24hAdapter
@@ -57,6 +57,9 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
         setContentView(binding.root)
         (application as App).appComponent.inject(this)
 
+        weatherPresenter.attachView(this)
+        cityPresenter.attachView(this)
+
         permissionHelper = LocationPermissionHelper(this)
         permissionHelper.checkLocationPermission()
 
@@ -68,8 +71,6 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
         initWeather14dRecycler()
         initCityRecycler()
 
-        weatherPresenter.attachView(this)
-        cityPresenter.attachView(this)
         weatherPresenter.getLocation()
     }
 
@@ -246,8 +247,8 @@ class MainActivity : AppCompatActivity(), MainView, LocationListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        weatherPresenter.detachView()
-        cityPresenter.detachView()
+        weatherPresenter.detachView(this)
+        cityPresenter.detachView(this)
         locationManager.removeUpdates(this)
     }
 

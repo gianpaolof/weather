@@ -4,32 +4,29 @@ import com.example.weather.app.presentation.main.MainView
 import com.example.weather.app.schedulers.SchedulerProvider
 import com.example.weather.domain.usecase.city.GetCityUseCase
 import io.reactivex.disposables.CompositeDisposable
+import moxy.InjectViewState
+import moxy.MvpPresenter
+import javax.inject.Inject
 
-class CityPresenterImpl(
+@InjectViewState
+class CityPresenterImpl @Inject constructor(
     private val getCityUseCase: GetCityUseCase,
     private val schedulers : SchedulerProvider
-): CityPresenter {
+): MvpPresenter<MainView>() {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
-    private var view: MainView? = null
-
-    override fun attachView(view: MainView) {
-        this.view = view
-    }
-
-    override fun detachView() {
-        this.view = null
+    override fun detachView(view: MainView?) {
         disposables.dispose()
     }
 
-    override fun getCity(city: String) {
+    fun getCity(city: String) {
         disposables.add(getCityUseCase.getCity(city)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .subscribe(
                 {
-                    view?.showCitiesResult(it.take(5))
+                    viewState.showCitiesResult(it.take(5))
                 }, {
                     throw RuntimeException(it.message)
                 }

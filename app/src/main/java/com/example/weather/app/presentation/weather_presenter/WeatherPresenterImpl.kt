@@ -8,43 +8,36 @@ import com.example.weather.domain.usecase.weather.GetWeather14dUseCase
 import com.example.weather.domain.usecase.weather.GetWeather24hUseCase
 import com.example.weather.domain.usecase.weather.GetWeatherNowUseCase
 import io.reactivex.disposables.CompositeDisposable
-import java.util.concurrent.TimeUnit
+import moxy.InjectViewState
+import moxy.MvpPresenter
+import javax.inject.Inject
 
-class WeatherPresenterImpl(
+@InjectViewState
+class WeatherPresenterImpl @Inject constructor(
     private val getWeatherNowUseCase: GetWeatherNowUseCase,
     private val getWeather24hUseCase: GetWeather24hUseCase,
     private val getWeather14dUseCase: GetWeather14dUseCase,
     private val schedulers: SchedulerProvider
-) : WeatherPresenter {
+) : MvpPresenter<MainView>() {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
-
-    private var view: MainView? = null
 
     private val _location = MutableLiveData<Pair<Double, Double>>()
     private val location: LiveData<Pair<Double, Double>> = _location
 
-    override fun attachView(view: MainView) {
-        this.view = view
-    }
-
-    override fun detachView() {
-        this.view = null
+    override fun detachView(view: MainView?) {
         disposables.dispose()
-        view?.let {
-            location.removeObservers(it)
-        }
     }
 
-    override fun getWeatherNow(latitude: Double, longitude: Double) {
+    fun getWeatherNow(latitude: Double, longitude: Double) {
         disposables.add(getWeatherNowUseCase.getWeatherNow(latitude, longitude)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .doOnSubscribe { view?.showProgress() }
-            .doFinally { view?.hideProgress() }
+            .doOnSubscribe { viewState.showProgress() }
+            .doFinally { viewState.hideProgress() }
             .subscribe(
                 {
-                    view?.showWeatherNow(it)
+                    viewState.showWeatherNow(it)
                 }, {
                     throw RuntimeException(it.message)
                 }
@@ -52,15 +45,15 @@ class WeatherPresenterImpl(
         )
     }
 
-    override fun getWeather24h(latitude: Double, longitude: Double) {
+    fun getWeather24h(latitude: Double, longitude: Double) {
         disposables.add(getWeather24hUseCase.getWeather24h(latitude, longitude)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .doOnSubscribe { view?.showProgress() }
-            .doFinally { view?.hideProgress() }
+            .doOnSubscribe { viewState.showProgress() }
+            .doFinally { viewState.hideProgress() }
             .subscribe(
                 {
-                    view?.showWeather24h(
+                    viewState.showWeather24h(
                         displayWeather24h = it.first,
                         listDisplayWeather24h = it.second
                     )
@@ -71,7 +64,7 @@ class WeatherPresenterImpl(
         )
     }
 
-    override fun getWeather14d(pickedDate: String?, latitude: Double, longitude: Double) {
+    fun getWeather14d(pickedDate: String?, latitude: Double, longitude: Double) {
         disposables.add(getWeather14dUseCase.getWeather14d(
             pickedDate = pickedDate,
             latitude = latitude,
@@ -80,11 +73,11 @@ class WeatherPresenterImpl(
             .first
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .doOnSubscribe { view?.showProgress() }
-            .doFinally { view?.hideProgress() }
+            .doOnSubscribe { viewState.showProgress() }
+            .doFinally { viewState.hideProgress() }
             .subscribe(
                 {
-                    view?.showWeather14d(
+                    viewState.showWeather14d(
                         displayWeather14d = it.first,
                         listDisplayWeather14d = it.second
                     )
@@ -101,11 +94,11 @@ class WeatherPresenterImpl(
             .second
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
-            .doOnSubscribe { view?.showProgress() }
-            .doFinally { view?.hideProgress() }
+            .doOnSubscribe { viewState.showProgress() }
+            .doFinally { viewState.hideProgress() }
             .subscribe(
                 {
-                    view?.showWeatherSummary(it)
+                    viewState.showWeatherSummary(it)
                 }, {
                     throw RuntimeException(it.message)
                 }
@@ -113,11 +106,11 @@ class WeatherPresenterImpl(
         )
     }
 
-    override fun setLocation(longitude: Double, latitude: Double) {
+    fun setLocation(longitude: Double, latitude: Double) {
         _location.postValue(Pair(first = longitude, second = latitude))
     }
 
-    override fun getLocation() {
-        view?.getLocation(location)
+    fun getLocation() {
+        viewState.getLocation(location)
     }
 }

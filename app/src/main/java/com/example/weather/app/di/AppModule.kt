@@ -2,9 +2,7 @@ package com.example.weather.app.di
 
 import android.app.Application
 import android.content.Context
-import com.example.weather.app.presentation.city_presenter.CityPresenter
 import com.example.weather.app.presentation.city_presenter.CityPresenterImpl
-import com.example.weather.app.presentation.weather_presenter.WeatherPresenter
 import com.example.weather.app.presentation.weather_presenter.WeatherPresenterImpl
 import com.example.weather.app.schedulers.AppSchedulerProvider
 import com.example.weather.app.schedulers.SchedulerProvider
@@ -30,7 +28,7 @@ class AppModule(private val application: Application) {
         getWeather24hUseCase: GetWeather24hUseCase,
         getWeather14dUseCase: GetWeather14dUseCase,
         schedulerProvider: SchedulerProvider,
-    ): WeatherPresenter {
+    ): WeatherPresenterImpl {
         return WeatherPresenterImpl(
             getWeatherNowUseCase = getWeatherNowUseCase,
             getWeather24hUseCase = getWeather24hUseCase,
@@ -43,7 +41,7 @@ class AppModule(private val application: Application) {
     fun provideCityPresenter(
         getCityUseCase: GetCityUseCase,
         schedulerProvider: SchedulerProvider,
-    ): CityPresenter {
+    ): CityPresenterImpl {
         return CityPresenterImpl(
             getCityUseCase = getCityUseCase,
             schedulers = schedulerProvider
